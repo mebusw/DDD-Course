@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.*;
 
+import java.util.List;
+
 /**
  * Created by jacky on 15/7/13.
  * 作为赫赫老师,我能创建课程,以便向家长发布课程信息。
@@ -25,27 +27,56 @@ import org.junit.*;
  */
 public class CourseTest {
 
+    private Teacher teacher;
+    private DateRange dateRange;
+    private Course course;
+    private CourseRepository repo;
+
     @Before
     public void setUp() throws Exception {
 
+        teacher = new Teacher("幼幼", "13809878765");
+        dateRange = new DateRange("Wednesday", "18:00", "19:30", "2015.02.11", 12);
+        course = Course.create("美术预科", "针对2-3岁儿童心理、生理特点以及敏感期的发展特点，从最基础的看、摸、闻、听、尝（视觉、触觉、嗅觉、听觉、味觉）感觉入手，培养孩子最基础的",
+                "2～3岁", 3000, "达芬奇", teacher, dateRange);
+        repo = new CourseRepository();
     }
 
     @Test
     public void can_create_a_course() {
-        Teacher teacher = new Teacher("幼幼", "13809878765");
-        DateRange dateRange = new DateRange("Wednesday", "18:00", "19:30", "2015.02.11", 12);
-        Course course = Course.create("美术预科", "针对2-3岁儿童心理、生理特点以及敏感期的发展特点，从最基础的看、摸、闻、听、尝（视觉、触觉、嗅觉、听觉、味觉）感觉入手，培养孩子最基础的",
-                "2～3岁", 3000, "达芬奇", teacher, dateRange);
-        CourseRepository repo = new CourseRepository();
-
         repo.save(course);
 
-        Course storedCourse = repo.retrive("美术预科");
+        Course storedCourse = repo.find("美术预科");
         assertEquals(course, storedCourse);
     }
 
     @Test
-    public void can_browse_a_course() {
+    public void can_update_a_course() {
+        course.fee = 5000;
+
+        repo.save(course);
+
+        Course storedCourse = repo.find("美术预科");
+        assertEquals(5000, storedCourse.fee);
+    }
+
+    @Test
+    public void can_delete_a_course() {
+        repo.delete(course);
+
+        Course storedCourse = repo.find("美术预科");
+        assertNull(storedCourse);
+    }
+
+    @Test
+    public void can_find_all_courses() {
+        Course anotherCourse = Course.create("书法", "书法的字体结构与笔画线条的教学，培养儿童对中国文化的理解与表达能力。书法是以书法技法学习为途径，通过对汉字艺术造型演化的了解，获得传统文",
+                "5～8岁", 2000, "毕加索", teacher, dateRange);
+        repo.save(course);
+        repo.save(anotherCourse);
+
+        List<Course> courses = repo.findAll();
+        assertEquals(2, courses.size());
     }
 
 }

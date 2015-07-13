@@ -1,19 +1,29 @@
 package scheduling;
 
+import java.util.List;
+
 /**
  * Created by jacky on 15/7/13.
  */
 public class CourseRepository {
-    private DataService dataService = DataService.getInstance();
+    private StorageService storageService = StorageService.getInstance();
     public CourseRepository() {
 
     }
 
     public void save(Course course) {
-        dataService.saveCourses(course);
+        storageService.saveCourses(course);
     }
 
-    public Course retrive(String name) {
-        return dataService.getCourse(name);
+    public Course find(String name) {
+        return storageService.getCourse(name);
+    }
+
+    public void delete(Course course) {
+        storageService.deleteCourses(course);
+    }
+
+    public List<Course> findAll() {
+        return storageService.findAllCourses();
     }
 }
