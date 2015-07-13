@@ -29,4 +29,8 @@ public class Course {
     public static Course create(String name, String desc, String forAge, int fee, String classroom, Teacher teacher, DateRange dateRange) {
         return new Course(name, desc, forAge, fee, classroom, teacher, dateRange);
     }
+
+    public String getTeachersAndMobiles() {
+        return String.format("%s %s", teacher.name, teacher.phone);
+    }
 }
