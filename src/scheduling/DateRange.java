@@ -1,5 +1,6 @@
 package scheduling;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -18,5 +19,8 @@ public class DateRange {
         this.endTime = endTime;
         this.dateStr = dateStr;
         this.times = times;
+    }
+    public boolean isOverlappedWith(DateRange other) {
+        return true;
     }
 }
