@@ -13,6 +13,7 @@ public class Enrollment {
     public String guardianMobile;
     public String payTime;
     public int payAmount;
+    private Guardian guardian;
 
     public Enrollment(String kidName, int age, String gender, String guardianName, String guardianMobile, String payTime, int payAmount) {
         this.kidName = kidName;
@@ -22,7 +23,17 @@ public class Enrollment {
         this.guardianMobile = guardianMobile;
         this.payTime = payTime;
         this.payAmount = payAmount;
+
+        this.guardian = new Guardian(this.guardianName, this.guardianMobile);
     }
 
 
+    public Guardian fetchGuardian() {
+        return guardian;
+    }
+
+    public void updateGuardian(String name, String mobile) {
+        this.guardian = new Guardian(name, mobile);
+
+    }
 }

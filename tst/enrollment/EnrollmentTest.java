@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * 作为赫赫老师,我能创建报名条目,以便接受家长报名某门课程。
@@ -38,6 +39,14 @@ public class EnrollmentTest {
 
     @Test
     public void can_update_a_enrollment() {
+        Enrollment enrollment = new Enrollment("小红", 10, "女", "大力", "13812345678", "2015-07-15", 2500);
+        Guardian guardian = enrollment.fetchGuardian();
+        assertEquals("大力", guardian.name);
+
+        enrollment.updateGuardian("老刘", "18900000000");
+        Guardian guardian2 = enrollment.fetchGuardian();
+        assertEquals("老刘", guardian2.name);
+        assertNotEquals(guardian, guardian2);
     }
 
     @Test
